@@ -1626,16 +1626,16 @@ void PlayerbotAI::DoNextAction(bool min)
 
     currentEngine->DoNextAction(nullptr, 0, (minimal || min));
 
+    // Activity throttling does not mean the bot is unavailable for chat.
+    // Clear AFK left by earlier versions so whispers do not show an Away reply.
+    if (bot->isAFK() && !IsSelfBot(bot))
+        bot->ToggleAFK();
+
     if (minimal)
     {
-        if (!bot->isAFK() && !bot->InBattleground() && !HasGameClientMaster())
-            bot->ToggleAFK();
-
         SetNextCheckDelay(sPlayerbotAIConfig.PassiveDelay);
         return;
     }
-    else if (bot->isAFK() && !IsSelfBot(bot))
-        bot->ToggleAFK();
 
     if (master && master->IsInWorld())
     {
