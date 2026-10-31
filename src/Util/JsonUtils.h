@@ -9,6 +9,11 @@
 
 #include <string>
 
+// Namespaced so these helpers do not collide at link time with identically-named
+// global helpers in other modules (e.g. mod-llm-chatter's JsonEscape) when both
+// modules are linked into worldserver.
+namespace PlayerbotsJson
+{
 // Escapes a string for use as a JSON string value.
 std::string JsonEscape(std::string const& value);
 
@@ -23,5 +28,9 @@ std::string LogsJsonPath(std::string const& filename);
 
 // Writes `content` to `path` atomically (temp file + rename). `context` prefixes the log lines.
 bool WriteJsonFile(std::string const& path, std::string const& content, char const* context);
+}
+
+// Keep existing unqualified call sites within this module working without edits.
+using namespace PlayerbotsJson;
 
 #endif
