@@ -15,6 +15,9 @@
 #include <sstream>
 #include <system_error>
 
+namespace PlayerbotsJson
+{
+
 std::string JsonEscape(std::string const& value)
 {
     std::ostringstream out;
@@ -118,3 +121,4 @@ bool WriteJsonFile(std::string const& path, std::string const& content, char con
     LOG_INFO("playerbots", "{} dump written to {}", context, path);
     return true;
 }
+}  // namespace PlayerbotsJson
